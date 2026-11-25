@@ -77,22 +77,22 @@ const Hero = () => {
         />
       ))}
 
-    <div className="absolute inset-0 -z-10 bg-linear-to-b from-transparent via-[#063B70]/55 to-[#063B70]/75 lg:bg-linear-to-r lg:from-[#063B70]/70 lg:via-[#063B70]/60 lg:to-transparent" />
+    <div className="absolute inset-0 -z-10 bg-linear-to-b from-transparent via-[#063B70]/55 to-[#063B70]/65 lg:bg-linear-to-r lg:from-[#063B70]/60 lg:via-[#063B70]/50 lg:to-transparent" />
 
       {/* Content */}
       <div className="mx-auto flex min-h-[38rem] max-w-7xl items-end px-4 pb-24 pt-16 sm:px-6 lg:min-h-[32.5rem] lg:items-center lg:py-16 lg:px-8">
         <div className="max-w-3xl lg:max-w-[50vw]">
-          <h1 className="text-4xl font-bold leading-tight text-white sm:text-6xl">
-            Helping children eat well and stay in school.
+          <h1 className="text-4xl font-bold leading-tight text-white sm:text-5xl">
+            HELPING CHILDREN EAT WELL AND STAY IN SCHOOL.
           </h1>
 
-          <p className="mt-4 max-w-2xl text-lg! text-white/95 sm:text-base">
+          <p className="mt-4 max-w-2xl text-lg! text-white sm:text-medium">
             Before we ask children what they want to be when they grow up, we must make sure they have what they need to grow.
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <Button
-              className="inline-flex items-center gap-2 bg-white text-primary-green! hover:bg-primary-green! hover:text-white! font-medium"
+              className="inline-flex items-center gap-2 bg-white text-primary-green! hover:bg-primary-green! hover:text-white! font-large"
               onClick={() =>
                 document
                   .getElementById("involved")
@@ -100,7 +100,7 @@ const Hero = () => {
               }
             >
               {/* <Utensils size={16} /> */}
-              Offer Food
+              OFFER FOOD
               <ArrowRight size={16} />
             </Button>
 
@@ -109,7 +109,7 @@ const Hero = () => {
               className="inline-flex items-center gap-2 border border-white bg-white/10 px-4 py-2 font-medium text-white backdrop-blur-sm transition-colors duration-300 hover:bg-primary-green hover:text-white hover:border-primary-green"
             >
               {/* <GraduationCap size={16} /> */}
-              Support Education
+              SUPPORT EDUCATION
               <ArrowRight size={16} />
             </a>
           </div>
