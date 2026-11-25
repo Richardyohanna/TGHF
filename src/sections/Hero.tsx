@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import Button from "../components/Button";
-import heroImg from "../assets/PACO Commission Charity Group Portrait.png";
-import foodDelivery from "../assets/Joyful Blue Uniform Group Portrait.png";
-import farmVisit from "../assets/Community Outreach and Learning Day.png";
+// import heroImg2 from "../assets/PACO Commission Charity Group Portrait.png";
+import heroImg from "../assets/13.jpeg";
+// import foodDelivery2 from "../assets/Joyful Blue Uniform Group Portrait.png";
+import foodDelivery from "../assets/29.jpeg";
+// import farmVisit2 from "../assets/Community Outreach and Learning Day.png";
+import farmVisit from "../assets/14.jpeg";
 
 const slides = [
   {
