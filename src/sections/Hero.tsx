@@ -1,148 +1,326 @@
-import { useEffect, useState } from "react";
-import { ArrowRight } from "lucide-react";
-import Button from "../components/Button";
-// import heroImg2 from "../assets/PACO Commission Charity Group Portrait.png";
-import heroImg from "../assets/13.jpeg";
-// import foodDelivery2 from "../assets/Joyful Blue Uniform Group Portrait.png";
-import foodDelivery from "../assets/29.jpeg";
-// import farmVisit2 from "../assets/Community Outreach and Learning Day.png";
-import farmVisit from "../assets/14.jpeg";
+import { useEffect, useRef, useState } from "react";
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+
+import readingImg from "../assets/40.jpeg";
+import schoolchildrenImg from "../assets/13.jpeg";
+import greenEdge from "../assets/TGHF Hero/Curved green photo edge.png";
+import whitePanel from "../assets/TGHF Hero/White text panel.png";
+import greenUpperCurve from "../assets/TGHF Hero/Green upper curve.png";
+import goldPhotoCurve from "../assets/TGHF Hero/Gold photo curve.png";
+import lowerWash from "../assets/TGHF Hero/Lower corner wash.png";
+import dotActive from "../assets/TGHF Hero/Active slide indicator.png";
+import dotIdle from "../assets/TGHF Hero/Second slide indicator.png";
 
 const slides = [
   {
-    src: heroImg,
-    alt: "Schoolchildren enjoying a meal together",
-    position: "object-[82%_center] lg:object-[68%_center]",
+    image: readingImg,
+    alt: "A volunteer reading with schoolchildren",
+    position: "object-[center_5%]",
+    blue: "Every child deserves",
+    green: "room to grow",
+    text: "We work alongside communities and partners to help children access food and education and to create opportunities for women and young people",
   },
   {
-    src: foodDelivery,
-    alt: "TGHF representatives distributing food to a community",
-    position: "object-[86%_center] lg:object-[72%_center]",
-  },
-  {
-    src: farmVisit,
-    alt: "Foundation representatives meeting with a local farmer",
-    position: "object-[82%_center] lg:object-[70%_center]",
+    // Placeholder second slide, replace with your real content
+    image: schoolchildrenImg,
+    alt: "Smiling schoolchildren holding a bowl of food",
+    position: "object-[70%_center]",
+    blue: "Helping children eat well and",
+    green: "stay in school.",
+    text: "Before we ask children what they want to be when they grow up, we must make sure they have what they need to grow."
   },
 ];
 
+const AUTOPLAY_MS = 8000;
+const SWIPE_PX = 50;
+
+const arrowBase =
+  "z-40 h-7 w-7 items-center justify-center rounded-full border border-primary-blue bg-white text-primary-blue shadow-sm transition-colors duration-300 hover:bg-primary-blue hover:text-white lg:h-8 lg:w-8";
+
+/*
+  Hero motion. You can move this block into index.css if you prefer.
+
+  Photo: the incoming photo fades in over 1.2s on top of the old one, while
+  slowly zooming from 100% to 107% over 9s (a gentle "Ken Burns" drift).
+  The old photo stays underneath until it is fully covered, so there is
+  never a dip or white flash, and it only resets its zoom once invisible.
+
+  Text: each piece (green bar, heading, paragraph, buttons) rises 18px and
+  fades in one after another. The outgoing text fades out quickly first.
+*/
+const heroCss = `
+.hero-photo {
+  opacity: 0;
+  transform: scale(1);
+  transition: opacity 0s linear 1200ms, transform 0s linear 1300ms;
+}
+.hero-photo.is-active {
+  opacity: 1;
+  transform: scale(1.07);
+  transition: opacity 1200ms ease-in-out, transform 9000ms cubic-bezier(0.2, 0.6, 0.2, 1);
+}
+
+.hero-slide {
+  visibility: hidden;
+  pointer-events: none;
+  transition: visibility 0s linear 300ms;
+}
+.hero-slide.is-active {
+  visibility: visible;
+  pointer-events: auto;
+  transition-delay: 0s;
+}
+
+.hero-reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 300ms ease, transform 300ms ease;
+}
+.hero-slide.is-active .hero-reveal {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 800ms ease-out calc(450ms + var(--d, 0ms)),
+    transform 800ms cubic-bezier(0.2, 0.7, 0.2, 1) calc(450ms + var(--d, 0ms));
+}
+
+.hero-bar {
+  width: 0;
+  transition: width 300ms ease;
+}
+.hero-slide.is-active .hero-bar {
+  width: 2.5rem;
+  transition: width 700ms ease-out 450ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-photo,
+  .hero-photo.is-active { transform: none; transition: opacity 300ms linear; }
+  .hero-reveal,
+  .hero-slide.is-active .hero-reveal { transform: none; transition: opacity 300ms linear; }
+  .hero-bar,
+  .hero-slide.is-active .hero-bar { transition: none; }
+}
+`;
+
 const Hero = () => {
-  const [activeSlide, setActiveSlide] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
-  const [isFocused, setIsFocused] = useState(false);
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [active, setActive] = useState(0);
+  const touchStartX = useRef<number | null>(null);
 
+  const next = () => setActive((i) => (i + 1) % slides.length);
+  const prev = () => setActive((i) => (i - 1 + slides.length) % slides.length);
+
+  // Autoplay. Resets whenever the slide changes, including manual clicks.
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const updatePreference = () => setPrefersReducedMotion(mediaQuery.matches);
+    const id = setTimeout(
+      () => setActive((i) => (i + 1) % slides.length),
+      AUTOPLAY_MS
+    );
+    return () => clearTimeout(id);
+  }, [active]);
 
-    updatePreference();
-    mediaQuery.addEventListener("change", updatePreference);
-    return () => mediaQuery.removeEventListener("change", updatePreference);
-  }, []);
+  // Swipe support for phones
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const delta = e.changedTouches[0].clientX - touchStartX.current;
+    touchStartX.current = null;
+    if (delta <= -SWIPE_PX) next();
+    if (delta >= SWIPE_PX) prev();
+  };
 
-  useEffect(() => {
-    if (isHovered || isFocused || prefersReducedMotion) return;
-
-    const intervalId = window.setInterval(() => {
-      setActiveSlide((current) => (current + 1) % slides.length);
-    }, 6800);
-
-    return () => window.clearInterval(intervalId);
-  }, [activeSlide, isHovered, isFocused, prefersReducedMotion]);
+  // Stagger helper: step 0, 1, 2... => 0ms, 150ms, 300ms...
+  const step = (n: number) => ({ "--d": `${n * 150}ms` } as React.CSSProperties);
 
   return (
-    <section
-      id="home"
-      aria-label="Homepage highlights"
-      aria-roledescription="carousel"
-      className="relative isolate min-h-[38rem] overflow-hidden lg:min-h-[32.5rem]"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      onFocus={() => setIsFocused(true)}
-      onBlur={(event) => {
-        if (!event.currentTarget.contains(event.relatedTarget)) {
-          setIsFocused(false);
-        }
-      }}
-    >
-      {slides.map((slide, index) => (
-        <img
-          key={slide.src}
-          src={slide.src}
-          alt={slide.alt}
-          aria-hidden={activeSlide !== index}
-          className={`hero-slide absolute inset-0 -z-20 h-full w-full object-cover ${slide.position} ${
-            activeSlide === index ? "hero-slide--active" : ""
-          }`}
-          loading={index === 0 ? "eager" : "lazy"}
-          fetchPriority={index === 0 ? "high" : "auto"}
-        />
-      ))}
-
-    <div className="absolute inset-0 -z-10 bg-linear-to-b from-transparent via-[#063B70]/55 to-[#063B70]/65 lg:bg-linear-to-r lg:from-[#063B70]/60 lg:via-[#063B70]/50 lg:to-transparent" />
-
-      {/* Content */}
-      <div className="mx-auto flex min-h-[38rem] max-w-7xl items-end px-4 pb-24 pt-16 sm:px-6 lg:min-h-[32.5rem] lg:items-center lg:py-16 lg:px-8">
-        <div className="max-w-3xl lg:max-w-[60vw]">
-          <h1 className="text-4xl font-bold leading-tight text-white sm:text-6xl">
-            HELPING CHILDREN EAT WELL AND STAY IN SCHOOL.
-          </h1>
-
-          <p className="mt-4 max-w-2xl text-lg! lg:text-2xl! text-white sm:text-medium">
-            Before we ask children what they want to be when they grow up, we must make sure they have what they need to grow.
-          </p>
-
-          <div className="mt-8 flex flex-wrap items-center gap-3">
-            <Button
-              className="inline-flex items-center gap-2 bg-white text-primary-green! hover:bg-primary-green! hover:text-white! font-medium"
-              onClick={() =>
-                document
-                  .getElementById("involved")
-                  ?.scrollIntoView({ behavior: "smooth" })
-              }
-            >
-              {/* <Utensils size={16} /> */}
-              OFFER FOOD
-              <ArrowRight size={16} />
-            </Button>
-
-            <a
-              href="#donate"
-              className="inline-flex items-center gap-2 border border-white bg-white/10 px-4 py-2 font-medium text-white backdrop-blur-sm transition-colors duration-300 hover:bg-primary-green hover:text-white hover:border-primary-green"
-            >
-              {/* <GraduationCap size={16} /> */}
-              SUPPORT EDUCATION
-              <ArrowRight size={16} />
-            </a>
-          </div>
-        </div>
-      </div>
+    <section id="home" className="relative isolate overflow-hidden bg-white">
+      <style>{heroCss}</style>
 
       <div
-        className="absolute inset-x-0 bottom-3 flex justify-center gap-1"
-        role="group"
-        aria-label="Choose a hero image"
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
+        className="relative flex w-full flex-col lg:block lg:h-[calc(100svh-159px)] lg:min-h-130"
       >
-        {slides.map((slide, index) => (
+        {/* ---------- Desktop decorative layers ---------- */}
+        <img
+          src={greenEdge}
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none absolute left-2 top-0 z-10 hidden h-full w-[55.6%] object-fill lg:block"
+        />
+        <img
+          src={whitePanel}
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none absolute left-0 top-0 z-20 hidden h-full w-[55.6%] object-fill lg:block"
+        />
+
+        {/* ---------- Mobile corner washes ---------- */}
+        <img
+          src={lowerWash}
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none absolute bottom-0 left-0 z-0 w-[26%] lg:hidden"
+        />
+        <img
+          src={lowerWash}
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none absolute bottom-0 right-0 z-0 w-[26%] -scale-x-100 lg:hidden"
+        />
+
+        {/* ---------- Photos ---------- */}
+        <div className="relative h-72 w-full shrink-0 sm:h-96 lg:absolute lg:right-0 lg:top-0 lg:z-0 lg:h-full lg:w-[59%]">
+          {/* Mobile: photo is cut by a curved bottom edge. Desktop: no clipping. */}
+          <div className="absolute inset-0 overflow-hidden bg-white [clip-path:ellipse(100%_100%_at_50%_0%)] lg:[clip-path:none]">
+            {slides.map((s, i) => {
+              const isActive = i === active;
+              return (
+                <img
+                  key={s.alt}
+                  src={s.image}
+                  alt={s.alt}
+                  aria-hidden={!isActive}
+                  className={`hero-photo absolute inset-0 h-full w-full object-cover will-change-transform ${s.position} ${
+                    isActive ? "is-active z-10" : "z-0"
+                  }`}
+                />
+              );
+            })}
+          </div>
+
+          {/* Mobile curves */}
+          <img
+            src={greenUpperCurve}
+            alt=""
+            aria-hidden="true"
+            className="pointer-events-none absolute left-0 top-0 z-20 w-[40%] lg:hidden"
+          />
+          <img
+            src={goldPhotoCurve}
+            alt=""
+            aria-hidden="true"
+            className="pointer-events-none absolute bottom-0 left-0 z-20 w-full lg:hidden"
+          />
+        </div>
+
+        {/* ---------- Text ---------- */}
+        <div className="relative z-10 lg:absolute lg:inset-y-0 lg:left-[7%] lg:z-40 lg:w-[33%]">
+          {/* Mobile arrows sit beside the heading */}
           <button
-            key={slide.src}
             type="button"
-            aria-label={`Show slide ${index + 1}: ${slide.alt}`}
-            aria-current={activeSlide === index ? "true" : undefined}
-            onClick={() => setActiveSlide(index)}
-            className="flex h-11 w-11 items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            aria-label="Previous slide"
+            onClick={prev}
+            className={`${arrowBase} absolute left-2 top-8 z-50 flex lg:hidden`}
           >
-            <span
-              aria-hidden="true"
-              className={`h-2.5 rounded-full transition-[width,background-color] duration-300 ${
-                activeSlide === index
-                  ? "w-7 bg-primary-orange"
-                  : "w-2.5 bg-white/70 hover:bg-white"
-              }`}
-            />
+            <ChevronLeft size={16} />
           </button>
-        ))}
+          <button
+            type="button"
+            aria-label="Next slide"
+            onClick={next}
+            className={`${arrowBase} absolute right-2 top-8 z-50 flex lg:hidden`}
+          >
+            <ChevronRight size={16} />
+          </button>
+
+          {/* All slides share one grid cell, so the layout never jumps */}
+          <div className="grid overflow-hidden lg:h-full">
+            {slides.map((s, i) => {
+              const Heading = i === 0 ? "h1" : "h2";
+              const isActive = i === active;
+
+              return (
+                <div
+                  key={s.blue}
+                  aria-hidden={!isActive}
+                  className={`hero-slide col-start-1 row-start-1 flex flex-col px-12 py-6 sm:px-16 lg:justify-center lg:px-0 lg:py-0 ${
+                    isActive ? "is-active" : ""
+                  }`}
+                >
+                  <span className="hero-bar mb-4 block h-1 bg-primary-green" />
+
+                  <Heading
+                    style={step(1)}
+                    className="hero-reveal text-[clamp(1.6rem,6.5vw,2.4rem)] font-extrabold uppercase leading-[1.1] text-primary-blue lg:text-[clamp(1.5rem,3.4vw,4rem)]"
+                  >
+                    {s.blue}{" "}
+                    <span className="text-primary-green">{s.green}</span>
+                  </Heading>
+
+                  <p
+                    style={step(2)}
+                    className="hero-reveal mt-4 text-[0.95rem] leading-relaxed text-gray-700 lg:max-w-full lg:text-[clamp(0.8rem,1.5vw,1.5rem)]"
+                  >
+                    {s.text}
+                  </p>
+
+                  <div
+                    style={step(3)}
+                    className="hero-reveal mt-6 flex flex-col gap-3 lg:flex-row lg:flex-wrap"
+                  >
+                    <a
+                      href="#involved"
+                      tabIndex={isActive ? 0 : -1}
+                      className="inline-flex w-full items-center justify-center gap-3 rounded-sm bg-primary-blue px-5 py-3 text-xs font-semibold uppercase tracking-wide text-white transition-colors duration-300 hover:bg-primary-green lg:w-auto lg:py-2.5"
+                    >
+                      Offer Food
+                      <ArrowRight size={14} />
+                    </a>
+                    <a
+                      href="#donate"
+                      tabIndex={isActive ? 0 : -1}
+                      className="inline-flex w-full items-center justify-center gap-3 rounded-sm border border-primary-blue px-5 py-3 text-xs font-semibold uppercase tracking-wide text-primary-blue transition-colors duration-300 hover:bg-primary-blue hover:text-white lg:w-auto lg:py-2.5"
+                    >
+                      Support Education
+                      <ArrowRight size={14} />
+                    </a>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* ---------- Desktop arrows ---------- */}
+        <button
+          type="button"
+          aria-label="Previous slide"
+          onClick={prev}
+          className={`${arrowBase} absolute left-[1.8%] top-1/2 hidden -translate-y-1/2 lg:flex`}
+        >
+          <ChevronLeft size={16} />
+        </button>
+        <button
+          type="button"
+          aria-label="Next slide"
+          onClick={next}
+          className={`${arrowBase} absolute right-[1.8%] top-1/2 hidden -translate-y-1/2 lg:flex`}
+        >
+          <ChevronRight size={16} />
+        </button>
+
+        {/* ---------- Slide indicators ---------- */}
+        <div className="relative z-10 flex justify-center pb-10 pt-2 lg:absolute lg:bottom-[4%] lg:left-[47%] lg:z-40 lg:p-0">
+          {slides.map((s, i) => (
+            <button
+              key={s.alt}
+              type="button"
+              aria-label={`Go to slide ${i + 1}`}
+              aria-current={i === active}
+              onClick={() => setActive(i)}
+              className="p-1"
+            >
+              <img
+                src={i === active ? dotActive : dotIdle}
+                alt=""
+                className="h-2.5 w-2.5"
+              />
+            </button>
+          ))}
+        </div>
       </div>
     </section>
   );

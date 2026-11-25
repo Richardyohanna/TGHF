@@ -13,8 +13,7 @@ body {
 }
 
 :root {
-  /* --primary-green: #07549A;      #078B37; */
-  --primary-green: #07549A; 
+  --primary-green: #078B37;
   --primary-blue: #07549A;
   --primary-orange: #F5A623;
   --off-white: #F7F9F7;
@@ -27,31 +26,216 @@ body {
   --color-off-white: var(--off-white);
 }
 
-.hero-slide {
+.hero-layout {
   opacity: 0;
-  transform: scale(1);
-  transition: opacity 1.2s ease-in-out;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 1.2s ease-in-out, visibility 1.2s;
 }
 
-.hero-slide--active {
+.hero-layout--active {
   opacity: 1;
-  animation: hero-ken-burns 7s ease-out forwards;
+  visibility: visible;
+  pointer-events: auto;
 }
 
-@keyframes hero-ken-burns {
-  from {
-    transform: scale(1);
+.hero-full-image {
+  object-position: var(--hero-mobile-position);
+}
+
+.hero-full-overlay {
+  background:
+    linear-gradient(180deg, transparent 25%, rgba(7, 84, 154, 0.18) 55%, rgba(3, 38, 74, 0.82) 100%);
+}
+
+.hero-split-image {
+  object-position: var(--hero-mobile-position);
+}
+
+.hero-carousel {
+  transition: height 1.2s ease-in-out;
+}
+
+.hero-carousel--organic {
+  height: 43rem;
+  min-height: 43rem;
+}
+
+.organic-photo {
+  overflow: hidden;
+  border-radius: 0 0 22% 12% / 0 0 10% 8%;
+}
+
+.organic-green-edge,
+.organic-white-panel {
+  position: absolute;
+  left: 0;
+  bottom: 56%;
+  z-index: 5;
+  width: min(84%, 500px);
+  height: auto;
+  pointer-events: none;
+}
+
+.organic-green-edge {
+  z-index: 4;
+  width: min(86%, 510px);
+  clip-path: inset(70% 0 0);
+}
+
+.organic-white-panel {
+  z-index: 5;
+  clip-path: inset(70% 0 0);
+}
+
+.organic-upper-wash,
+.organic-lower-wash {
+  position: absolute;
+  left: 0;
+  height: auto;
+  pointer-events: none;
+}
+
+.organic-upper-wash {
+  top: 0;
+  z-index: 7;
+  width: min(22%, 100px);
+}
+
+.organic-lower-wash {
+  bottom: 0;
+  z-index: 7;
+  width: min(24%, 124px);
+}
+
+.organic-orange-accent {
+  position: absolute;
+  left: 56%;
+  bottom: 56%;
+  z-index: 20;
+  width: min(27%, 120px);
+  height: auto;
+  pointer-events: none;
+}
+
+.organic-content {
+  background: #ffffff;
+}
+
+.organic-copy {
+  max-width: 34rem;
+}
+
+.organic-mark {
+  background: #2C8D2D;
+}
+
+.hero-pagination button:focus-visible {
+  outline-color: #0059AA;
+}
+
+.hero-pagination button:first-child img {
+  transform: translateX(12px);
+}
+
+.hero-pagination button:last-child img {
+  transform: translateX(-12px);
+}
+
+.hero-carousel--organic .hero-arrow {
+  border-color: #0059AA;
+  background-color: #ffffff;
+  color: #0059AA;
+}
+
+@media (min-width: 1024px) {
+  .hero-full-image,
+  .hero-split-image {
+    object-position: var(--hero-desktop-position);
   }
 
-  to {
-    transform: scale(1.05);
+  .hero-full-overlay {
+    background:
+      linear-gradient(90deg, rgba(3, 38, 74, 0.82) 0%, rgba(7, 84, 154, 0.58) 38%, rgba(7, 84, 154, 0.12) 68%, transparent 100%);
+  }
+
+  .hero-carousel--organic {
+    height: clamp(20.4375rem, 31.93vw, 32.5rem);
+    min-height: 0;
+  }
+
+  .organic-photo {
+    border-radius: 0;
+  }
+
+  .organic-green-edge,
+  .organic-white-panel {
+    top: 0;
+    bottom: auto;
+    width: auto;
+    height: 100%;
+    clip-path: none;
+  }
+
+  .organic-upper-wash {
+    width: 8.1%;
+  }
+
+  .organic-lower-wash {
+    width: 12.1%;
+  }
+
+  .organic-orange-accent {
+    left: 46%;
+    bottom: -1%;
+    width: 10%;
+  }
+
+  .organic-content {
+    background: transparent;
+  }
+
+  .organic-copy {
+    width: 32%;
+    max-width: none;
+    margin-left: 8.3%;
+  }
+
+  .organic-copy > p {
+    font-size: clamp(0.72rem, 0.95vw, 0.9rem);
+  }
+
+  .organic-mark {
+    margin-bottom: 0.65rem;
+  }
+
+  .hero-pagination button:focus-visible {
+    outline-color: #0059AA;
+  }
+}
+
+@media (max-width: 1023px) {
+  .hero-carousel:not(.hero-carousel--organic) .hero-arrow {
+    top: 17%;
+  }
+
+  .hero-carousel--organic .hero-arrow {
+    top: 8%;
+  }
+
+  .hero-carousel--organic .hero-pagination button:focus-visible {
+    outline-color: #0059AA;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-slide,
-  .hero-slide--active {
+  .hero-layout,
+  .hero-layout--active {
     animation: none;
+    transition: none;
+  }
+
+  .hero-carousel {
     transition: none;
   }
 }
