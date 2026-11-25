@@ -81,18 +81,18 @@ const Hero = () => {
 
       {/* Content */}
       <div className="mx-auto flex min-h-[38rem] max-w-7xl items-end px-4 pb-24 pt-16 sm:px-6 lg:min-h-[32.5rem] lg:items-center lg:py-16 lg:px-8">
-        <div className="max-w-3xl lg:max-w-[50vw]">
-          <h1 className="text-4xl font-bold leading-tight text-white sm:text-5xl">
+        <div className="max-w-3xl lg:max-w-[60vw]">
+          <h1 className="text-4xl font-bold leading-tight text-white sm:text-6xl">
             HELPING CHILDREN EAT WELL AND STAY IN SCHOOL.
           </h1>
 
-          <p className="mt-4 max-w-2xl text-lg! text-white sm:text-medium">
+          <p className="mt-4 max-w-2xl text-lg! lg:text-2xl! text-white sm:text-medium">
             Before we ask children what they want to be when they grow up, we must make sure they have what they need to grow.
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <Button
-              className="inline-flex items-center gap-2 bg-white text-primary-green! hover:bg-primary-green! hover:text-white! font-large"
+              className="inline-flex items-center gap-2 bg-white text-primary-green! hover:bg-primary-green! hover:text-white! font-medium"
               onClick={() =>
                 document
                   .getElementById("involved")
