@@ -1,0 +1,57 @@
+
+@import "tailwindcss";
+
+* {
+  font-family: "Roboto", sans-serif;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+}
+
+:root {
+  /* --primary-green: #07549A;      #078B37; */
+  --primary-green: #07549A; 
+  --primary-blue: #07549A;
+  --primary-orange: #F5A623;
+  --off-white: #F7F9F7;
+}
+
+@theme inline {
+  --color-primary-green: var(--primary-green);
+  --color-primary-blue: var(--primary-blue);
+  --color-primary-orange: var(--primary-orange);
+  --color-off-white: var(--off-white);
+}
+
+.hero-slide {
+  opacity: 0;
+  transform: scale(1);
+  transition: opacity 1.2s ease-in-out;
+}
+
+.hero-slide--active {
+  opacity: 1;
+  animation: hero-ken-burns 7s ease-out forwards;
+}
+
+@keyframes hero-ken-burns {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.05);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-slide,
+  .hero-slide--active {
+    animation: none;
+    transition: none;
+  }
+}
