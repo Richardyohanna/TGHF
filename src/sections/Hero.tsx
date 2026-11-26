@@ -8,7 +8,7 @@ import greenEdge from "../assets/Curved green photo edge.png";
 import whitePanel from "../assets/TGHF Hero/White text panel.png";
 import greenUpperCurve from "../assets/Green upper curve (1).png";
 import goldPhotoCurve from "../assets/TGHF Hero/Gold photo curve.png";
-import lowerWash from "../assets/TGHF Hero/Lower corner wash.png";
+// import lowerWash from "../assets/TGHF Hero/Lower corner wash.png";
 import dotActive from "../assets/TGHF Hero/Active slide indicator.png";
 import dotIdle from "../assets/TGHF Hero/Second slide indicator.png";
 
