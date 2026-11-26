@@ -15,26 +15,30 @@ const FeedAChildStory = () => {
           child had a question for me, too.
         </p>
 
-        {/* Quote */}
-        <blockquote className="relative mt-6 px-6 sm:px-8">
-          <span
-            aria-hidden="true"
-            className="absolute -top-2 left-0 lg:-left-2 font-['Lora',serif] text-5xl font-bold leading-none text-primary-blue sm:-top-4 sm:text-8xl"
-          >
-            “
-          </span>
+      {/* Quote */}
+      <blockquote className="relative mt-6 px-6 sm:px-8">
+        {/* <span
+          aria-hidden="true"
+          className="absolute -top-2 left-3 sm:left-0 lg:-left-2
+          font-['Lora',serif] text-2xl font-bold leading-none
+          text-primary-blue sm:-top-4 sm:text-5xl"
+        >
+          “
+        </span> */}
 
-          <p className="font-['Lora',serif] text-[clamp(1.3rem,3.5vw,2rem)] font-bold leading-[1.15] text-[#0d1b4c]">
-            How will I grow up when I haven’t eaten?
-          </p>
+        <p className="font-['Lora',serif] italic text-[clamp(1.3rem,3.5vw,2rem)] font-bold leading-[1.15] text-[#0d1b4c]">
+          How will I grow up when I haven’t eaten?
+        </p>
 
-          <span
-            aria-hidden="true"
-            className="absolute -top-2 right-0 lg:-right-2 font-['Lora',serif] text-5xl font-bold leading-none text-primary-blue sm:-top-4 sm:text-8xl"
-          >
-            ”
-          </span>
-        </blockquote>
+        {/* <span
+          aria-hidden="true"
+          className="absolute -top-2 right-3 sm:right-0 lg:-right-2
+          font-['Lora',serif] text-2xl font-bold leading-none
+          text-primary-blue sm:-top-4 sm:text-5xl"
+        >
+          ”
+        </span> */}
+      </blockquote>
 
         {/* Curved underline */}
         <img
