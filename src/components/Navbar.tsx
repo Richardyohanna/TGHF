@@ -88,8 +88,8 @@ export default function Navbar() {
                   onClick={() => setActive(link.label)}
                   className={`flex items-center gap-1 border-b-2 pb-1 text-base font-medium transition-colors duration-300 ${
                     active === link.label
-                      ? "border-primary-green text-primary-green"
-                      : "border-transparent text-gray-800 group-hover:text-primary-green"
+                      ? "border-primary-blue text-primary-blue"
+                      : "border-transparent text-gray-800 group-hover:text-primary-blue"
                   }`}
                 >
                   {link.label}
@@ -111,7 +111,7 @@ export default function Navbar() {
                           <a
                             href={child.href}
                             onClick={() => setActive(link.label)}
-                            className="block whitespace-nowrap px-4 py-2 text-sm text-gray-700 transition-colors duration-200 hover:bg-gray-50 hover:text-primary-green"
+                            className="block whitespace-nowrap px-4 py-2 text-sm text-gray-700 transition-colors duration-200 hover:bg-gray-50 hover:text-primary-blue"
                           >
                             {child.label}
                           </a>
@@ -170,7 +170,7 @@ export default function Navbar() {
                       setMenuOpen(false);
                     }}
                     className={`flex-1 py-3 text-sm font-medium ${
-                      active === link.label ? "text-primary-green" : "text-gray-800"
+                      active === link.label ? "text-primary-blue" : "text-gray-800"
                     }`}
                   >
                     {link.label}
@@ -210,7 +210,7 @@ export default function Navbar() {
                             setActive(link.label);
                             setMenuOpen(false);
                           }}
-                          className="block py-2 text-sm text-gray-600 hover:text-primary-green"
+                          className="block py-2 text-sm text-gray-600 hover:text-primary-blue"
                         >
                           {child.label}
                         </a>

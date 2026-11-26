@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 
 import readingImg from "../assets/40.jpeg";
-import schoolchildrenImg from "../assets/13.jpeg";
+import schoolchildrenImg from "../assets/13a.png";
 import greenEdge from "../assets/TGHF Hero/Curved green photo edge.png";
 import whitePanel from "../assets/TGHF Hero/White text panel.png";
 import greenUpperCurve from "../assets/TGHF Hero/Green upper curve.png";
