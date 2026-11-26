@@ -5,7 +5,7 @@ const FeedAChildStory = () => {
     <section id="story" className="bg-white px-4 py-16 sm:px-6 sm:py-15 lg:px-8">
       <div className="mx-auto flex max-w-4xl flex-col items-center text-center">
         {/* Eyebrow */}
-        <h2 className="text-2xl lg:text-4xl font-bold uppercase tracking-[0.1em] text-primary-blue sm:text-base">
+        <h2 className="text-2xl lg:text-4xl font-bold uppercase tracking-normal text-primary-blue sm:text-base">
           The story behind Feed a Child
         </h2>
 
@@ -24,7 +24,7 @@ const FeedAChildStory = () => {
             “
           </span>
 
-          <p className="font-['Lora',serif] text-[clamp(1rem,3.5vw,2rem)] font-bold leading-[1.15] text-[#0d1b4c]">
+          <p className="font-['Lora',serif] text-[clamp(1.3rem,3.5vw,2rem)] font-bold leading-[1.15] text-[#0d1b4c]">
             How will I grow up when I haven’t eaten?
           </p>
 

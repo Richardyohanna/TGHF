@@ -335,6 +335,10 @@ html {
   transform: translateX(-12px);
 }
 
+.hero-swipe-area {
+  touch-action: pan-y;
+}
+
 .hero-carousel--organic .hero-arrow {
   border-color: #0059AA;
   background-color: #ffffff;

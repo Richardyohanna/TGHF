@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import type { TouchEvent } from "react";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 
 import readingImg from "../assets/40.jpeg";
@@ -32,7 +33,7 @@ const slides = [
 ];
 
 const AUTOPLAY_MS = 8000;
-const SWIPE_PX = 50;
+const SWIPE_PX = 55;
 
 const arrowBase =
   "z-40 h-7 w-7 items-center justify-center rounded-full border border-primary-blue bg-white text-primary-blue shadow-sm transition-colors duration-300 hover:bg-primary-blue hover:text-white lg:h-8 lg:w-8";
@@ -105,7 +106,7 @@ const heroCss = `
 
 const Hero = () => {
   const [active, setActive] = useState(0);
-  const touchStartX = useRef<number | null>(null);
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
 
   const next = () => setActive((i) => (i + 1) % slides.length);
   const prev = () => setActive((i) => (i - 1 + slides.length) % slides.length);
@@ -119,16 +120,29 @@ const Hero = () => {
     return () => clearTimeout(id);
   }, [active]);
 
-  // Swipe support for phones
-  const onTouchStart = (e: React.TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX;
+  const onTouchStart = (event: TouchEvent<HTMLDivElement>) => {
+    if (event.touches.length !== 1) {
+      touchStart.current = null;
+      return;
+    }
+
+    const touch = event.touches[0];
+    touchStart.current = { x: touch.clientX, y: touch.clientY };
   };
-  const onTouchEnd = (e: React.TouchEvent) => {
-    if (touchStartX.current === null) return;
-    const delta = e.changedTouches[0].clientX - touchStartX.current;
-    touchStartX.current = null;
-    if (delta <= -SWIPE_PX) next();
-    if (delta >= SWIPE_PX) prev();
+  const onTouchEnd = (event: TouchEvent<HTMLDivElement>) => {
+    const start = touchStart.current;
+    const touch = event.changedTouches[0];
+    touchStart.current = null;
+    if (!start || !touch) return;
+
+    const deltaX = touch.clientX - start.x;
+    const deltaY = touch.clientY - start.y;
+    if (Math.abs(deltaX) < SWIPE_PX || Math.abs(deltaX) <= Math.abs(deltaY)) {
+      return;
+    }
+
+    if (deltaX < 0) next();
+    else prev();
   };
 
   // Stagger helper: step 0, 1, 2... => 0ms, 150ms, 300ms...
@@ -141,7 +155,10 @@ const Hero = () => {
       <div
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
-        className="relative flex w-full flex-col lg:block lg:h-[calc(100svh-159px)] lg:min-h-130"
+        onTouchCancel={() => {
+          touchStart.current = null;
+        }}
+        className="hero-swipe-area relative flex w-full flex-col lg:block lg:h-[calc(100svh-159px)] lg:min-h-130"
       >
         {/* ---------- Desktop decorative layers ---------- */}
         <img
@@ -158,7 +175,7 @@ const Hero = () => {
         />
 
         {/* ---------- Mobile corner washes ---------- */}
-        <img
+        {/* <img
           src={lowerWash}
           alt=""
           aria-hidden="true"
@@ -169,7 +186,7 @@ const Hero = () => {
           alt=""
           aria-hidden="true"
           className="pointer-events-none absolute bottom-0 right-0 z-0 w-[26%] -scale-x-100 lg:hidden"
-        />
+        /> */}
 
         {/* ---------- Photos ---------- */}
         <div className="relative h-72 w-full shrink-0 sm:h-96 lg:absolute lg:right-0 lg:top-0 lg:z-0 lg:h-full lg:w-[59%]">
@@ -208,24 +225,6 @@ const Hero = () => {
 
         {/* ---------- Text ---------- */}
         <div className="relative z-10 lg:absolute lg:inset-y-0 lg:left-[7%] lg:z-40 lg:w-[33%]">
-          {/* Mobile arrows sit beside the heading */}
-          <button
-            type="button"
-            aria-label="Previous slide"
-            onClick={prev}
-            className={`${arrowBase} absolute left-2 top-8 z-50 flex lg:hidden`}
-          >
-            <ChevronLeft size={16} />
-          </button>
-          <button
-            type="button"
-            aria-label="Next slide"
-            onClick={next}
-            className={`${arrowBase} absolute right-2 top-8 z-50 flex lg:hidden`}
-          >
-            <ChevronRight size={16} />
-          </button>
-
           {/* All slides share one grid cell, so the layout never jumps */}
           <div className="grid overflow-hidden lg:h-full">
             {slides.map((s, i) => {
@@ -236,7 +235,7 @@ const Hero = () => {
                 <div
                   key={s.blue}
                   aria-hidden={!isActive}
-                  className={`hero-slide col-start-1 row-start-1 flex flex-col px-12 py-6 sm:px-16 lg:justify-center lg:px-0 lg:py-0 ${
+                  className={`hero-slide col-start-1 row-start-1 flex flex-col px-6 py-6 sm:px-10 lg:justify-center lg:px-0 lg:py-0 ${
                     isActive ? "is-active" : ""
                   }`}
                 >
@@ -303,7 +302,7 @@ const Hero = () => {
         </button>
 
         {/* ---------- Slide indicators ---------- */}
-        <div className="relative z-10 flex justify-center pb-10 pt-2 lg:absolute lg:bottom-[4%] lg:left-[47%] lg:z-40 lg:p-0">
+        <div className="relative z-10 flex justify-center pb-4 pt-1 lg:absolute lg:bottom-[4%] lg:left-[47%] lg:z-40 lg:p-0">
           {slides.map((s, i) => (
             <button
               key={s.alt}
@@ -311,7 +310,7 @@ const Hero = () => {
               aria-label={`Go to slide ${i + 1}`}
               aria-current={i === active}
               onClick={() => setActive(i)}
-              className="p-1"
+              className="flex h-11 w-11 items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary-blue lg:h-auto lg:w-auto lg:p-1"
             >
               <img
                 src={i === active ? dotActive : dotIdle}
