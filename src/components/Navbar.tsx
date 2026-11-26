@@ -2,53 +2,7 @@ import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import Button from "./Button";
 import logo from "../../public/logo.png";
-
-type NavChild = { label: string; href: string };
-type NavLink = { label: string; href: string; children?: NavChild[] };
-
-// Edit the children to match the real sections on each page.
-// Leave out `children` for any page that doesn't need a dropdown.
-const navLinks: NavLink[] = [
-  {
-    label: "Home",
-    href: "#home",
-    children: [
-      { label: "Who We Are", href: "#who-we-are" },
-      { label: "Our Programmes", href: "#programmes-preview" },
-      { label: "Partners", href: "#partners" },
-    ],
-  },
-  {
-    label: "About Us",
-    href: "#about",
-    children: [
-      { label: "Our Story", href: "#our-story" },
-      { label: "Mission & Vision", href: "#mission" },
-      { label: "Our Team", href: "#team" },
-    ],
-  },
-  {
-    label: "Our Programmes",
-    href: "#programmes",
-    children: [
-      { label: "School Feeding", href: "#school-feeding" },
-      { label: "Education Support", href: "#education-support" },
-      { label: "Farm & Business Links", href: "#farm-links" },
-    ],
-  },
-  { label: "Our Impact", href: "#impact" },
-  {
-    label: "Get Involved",
-    href: "#involved",
-    children: [
-      { label: "Offer Food", href: "#offer-food" },
-      { label: "Donate", href: "#donate" },
-      { label: "Volunteer", href: "#volunteer" },
-      { label: "Partner With Us", href: "#partner" },
-    ],
-  },
-  { label: "Contact", href: "#contact" },
-];
+import { navLinks } from "./navigationConfig";
 
 const scrollToSection = (id: string) => {
   document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
@@ -60,7 +14,7 @@ export default function Navbar() {
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
 
   return (
-    <header className="relative z-50 bg-white shadow-sm">
+    <header id="site-navigation" className="relative z-50 bg-white shadow-sm">
       <div className="mx-auto flex max-w-7xl items-center justify-between sm:justify-between md:justify-between lg:justify-around px-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <a href="#home" className="shrink-0">

@@ -3,9 +3,9 @@ import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 
 import readingImg from "../assets/40.jpeg";
 import schoolchildrenImg from "../assets/13a.png";
-import greenEdge from "../assets/TGHF Hero/Curved green photo edge.png";
+import greenEdge from "../assets/Curved green photo edge.png";
 import whitePanel from "../assets/TGHF Hero/White text panel.png";
-import greenUpperCurve from "../assets/TGHF Hero/Green upper curve.png";
+import greenUpperCurve from "../assets/Green upper curve (1).png";
 import goldPhotoCurve from "../assets/TGHF Hero/Gold photo curve.png";
 import lowerWash from "../assets/TGHF Hero/Lower corner wash.png";
 import dotActive from "../assets/TGHF Hero/Active slide indicator.png";
@@ -240,7 +240,7 @@ const Hero = () => {
                     isActive ? "is-active" : ""
                   }`}
                 >
-                  <span className="hero-bar mb-4 block h-1 bg-primary-green" />
+                  <span className="hero-bar mb-4 block h-1 bg-primary-blue" />
 
                   <Heading
                     style={step(1)}
