@@ -19,7 +19,9 @@ const marqueeCss = `
   to   { transform: translateX(-50%); }
 }
 .hopenest-track { animation: hopenest-marquee 28s linear infinite; }
-.hopenest-marquee:hover .hopenest-track { animation-play-state: paused; }
+@media (hover: hover) {
+  .hopenest-marquee:hover .hopenest-track { animation-play-state: paused; }
+}
 @media (prefers-reduced-motion: reduce) {
   .hopenest-track { animation: none; width: auto; flex-wrap: wrap; justify-content: center; row-gap: 1rem; }
   .hopenest-dup { display: none; }
@@ -96,23 +98,26 @@ const WhoWeAre = () => (
   <section
     id="who-we-are"
     aria-labelledby="who-we-are-heading"
-    className="scroll-mt-12 bg-white px-6 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-20"
+    className="scroll-mt-12 overflow-x-clip bg-white px-4 py-12 sm:px-8 sm:py-16 lg:px-12 lg:py-20"
   >
     <h2
       id="who-we-are-heading"
-      className="text-center text-2xl font-bold uppercase leading-[1.08] text-primary-blue lg:text-4xl"
+      className="text-center text-2xl font-bold uppercase leading-[1.08] text-primary-blue sm:text-3xl lg:text-4xl"
     >
       Who We Are
     </h2>
 
-    {/* items-stretch: both columns share the same height */}
-    <div className="mx-auto mt-10 grid max-w-7xl items-stretch gap-10 md:grid-cols-[minmax(0,1.85fr)_minmax(16rem,1fr)] md:gap-14 lg:gap-20">
+    {/*
+      Mobile + tablet: one column (text, logos, then social card).
+      Desktop (lg+): two columns, both the same height.
+    */}
+    <div className="mx-auto mt-8 grid max-w-7xl grid-cols-1 items-stretch gap-8 sm:mt-10 sm:gap-10 lg:grid-cols-[minmax(0,1.85fr)_minmax(18rem,1fr)] lg:gap-14 xl:gap-20">
       {/* Text + moving logo strip that fills the leftover space */}
-      <div className="flex flex-col text-center md:text-left">
-        <h3 className="text-[clamp(1rem,2.2vw,1.75rem)] font-bold uppercase leading-[1.08] text-primary-blue">
+      <div className="flex min-w-0 flex-col text-center lg:text-left">
+        <h3 className="text-[clamp(1.05rem,4.5vw,1.75rem)] font-bold uppercase leading-[1.15] text-primary-blue">
           The George Hopenest Foundation
         </h3>
-        <p className="mx-auto mt-4 max-w-3xl text-base leading-relaxed text-[#0d1b4c] sm:text-lg md:mx-0 lg:text-xl">
+        <p className="mx-auto mt-4 max-w-3xl text-base leading-relaxed text-[#0d1b4c] sm:text-lg lg:mx-0 xl:text-xl">
           We listen to displaced and rural communities and to orphanage homes
           to understand local needs. We connect farmers and food businesses
           with organisations caring for children, helping food reach kitchens
@@ -121,20 +126,20 @@ const WhoWeAre = () => (
           practical skills-training opportunities for women and girls.
         </p>
 
-        {/* Moving logo strip: grows to fill the space under the text */}
-        <div className="mt-8 flex min-h-40 flex-1 flex-col justify-center rounded-2xl border border-primary-blue/10 bg-primary-blue/5 py-5">
+        {/* Moving logo strip: grows to fill the space under the text on desktop */}
+        <div className="mt-8 flex min-h-36 flex-1 flex-col justify-center rounded-2xl border border-primary-blue/10 bg-primary-blue/5 py-4 sm:min-h-40 sm:py-5">
           <style>{marqueeCss}</style>
-          <p className="px-5 text-center  text-sm font-bold uppercase tracking-wider text-primary-blue md:text-left">
+          <p className="px-5 text-center text-xs font-bold uppercase tracking-wider text-primary-blue sm:text-sm lg:text-left">
             Our partners
           </p>
 
           <div
-            className="hopenest-marquee mt-4 overflow-hidden"
+            className="hopenest-marquee mt-3 overflow-hidden sm:mt-4"
             style={{
               WebkitMaskImage:
-                "linear-gradient(to right, transparent, #000 10%, #000 90%, transparent)",
+                "linear-gradient(to right, transparent, #000 8%, #000 92%, transparent)",
               maskImage:
-                "linear-gradient(to right, transparent, #000 10%, #000 90%, transparent)",
+                "linear-gradient(to right, transparent, #000 8%, #000 92%, transparent)",
             }}
           >
             <div className="hopenest-track flex w-max items-center">
@@ -144,7 +149,7 @@ const WhoWeAre = () => (
                   <div
                     key={`${name}-${i}`}
                     aria-hidden={isCopy || undefined}
-                    className={`mr-5 flex h-20 w-36 shrink-0 items-center justify-center rounded-xl bg-white p-2 shadow-md transition-transform duration-300 hover:scale-105 sm:h-24 sm:w-44 ${
+                    className={`mr-4 flex h-16 w-28 shrink-0 items-center justify-center rounded-xl bg-white p-1.5 shadow-md transition-transform duration-300 hover:scale-105 sm:mr-5 sm:h-20 sm:w-36 sm:p-2 lg:h-24 lg:w-44 ${
                       isCopy ? "hopenest-dup" : ""
                     }`}
                   >
@@ -163,20 +168,20 @@ const WhoWeAre = () => (
         </div>
       </div>
 
-      {/* Social card */}
-      <div className="mx-auto w-full max-w-sm self-start rounded-3xl bg-primary-blue p-5 shadow-lg md:mx-0">
+      {/* Social card: compact on phones, two columns on tablets, a list on desktop */}
+      <div className="mx-auto w-full max-w-sm self-start rounded-3xl bg-primary-blue p-4 shadow-lg sm:max-w-2xl sm:p-5 lg:mx-0 lg:max-w-sm">
         <p className="px-2 text-lg font-bold text-white">Follow our work</p>
         <p className="mt-1 px-2 text-sm text-white/80">
           See where the food goes and who it feeds.
         </p>
 
-        <ul className="mt-4 flex flex-col gap-2">
+        <ul className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:flex lg:flex-col">
           {socialPlatforms.map(({ name, href, icon }) => (
             <li key={name}>
               <a
                 href={href}
                 aria-label={`Follow us on ${name}`}
-                className="group flex items-center gap-4 rounded-2xl px-3 py-2.5 text-white transition-colors duration-200 hover:bg-white hover:text-primary-blue focus-visible:bg-white focus-visible:text-primary-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-green motion-reduce:transition-none"
+                className="group flex min-h-12 items-center gap-4 rounded-2xl px-3 py-2 text-white transition-colors duration-200 hover:bg-white hover:text-primary-blue focus-visible:bg-white focus-visible:text-primary-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-green motion-reduce:transition-none sm:py-2.5"
               >
                 <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/15 transition-colors duration-200 group-hover:bg-primary-blue/10 group-focus-visible:bg-primary-blue/10">
                   <svg
