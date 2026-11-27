@@ -1,7 +1,7 @@
 import { ArrowRight } from "lucide-react";
 
 import educationImage from "../assets/42.jpeg";
-import farmingImage from "../assets/AI Catering.jpeg";
+import farmingImage from "../assets/ai bake.jpeg";
 import feedingImage from "../assets/vegetables AI.jpeg";
 
 const programmes = [
@@ -38,20 +38,18 @@ const OurProgrammes = () => (
   <section
     id="programmes"
     aria-labelledby="programmes-heading"
-    className="scroll-mt-12 bg-white px-5 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24"
+    className="scroll-mt-12 bg-primary-blue px-5 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-20"
   >
     <div className="mx-auto max-w-7xl">
       <header className="mx-auto mb-10 max-w-3xl text-center sm:mb-14">
-        {/* <p className="text-sm font-bold uppercase tracking-[0.2em] text-primary-green sm:text-base">
-          Our Programmes
-        </p> */}
         <h2
           id="programmes-heading"
-          className="mt-3 text-2xl font-bold uppercase leading-tight tracking-[0.1em] text-primary-blue sm:text-3xl lg:text-4xl"
+          className=" text-2xl font-bold uppercase leading-tight text-white sm:text-3xl lg:text-4xl"
         >
           What We Do
         </h2>
-        <p className="mt-5 text-base leading-relaxed text-[#0d1b4c] sm:text-lg">
+
+        <p className="mt-5 text-base leading-relaxed text-white sm:text-lg">
           Starting with what communities say they need, we bring partners
           together to improve children&apos;s access to nutritious food, support
           their education and create practical skills opportunities for women
@@ -64,7 +62,7 @@ const OurProgrammes = () => (
           <article
             id={programme.id}
             key={programme.id}
-            className="group flex h-full flex-col overflow-hidden border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg motion-reduce:transform-none motion-reduce:transition-none md:last:col-span-2 md:last:mx-auto md:last:w-[calc(50%-1rem)] lg:last:col-span-1 lg:last:mx-0 lg:last:w-auto"
+            className="group flex h-full flex-col overflow-hiddenbg-white bg-white shadow-lg transition duration-300 hover:-translate-y-1 hover:shadow-2xl motion-reduce:transform-none motion-reduce:transition-none md:last:col-span-2 md:last:mx-auto md:last:w-[calc(50%-1rem)] lg:last:col-span-1 lg:last:mx-0 lg:last:w-auto"
           >
             <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
               <img
