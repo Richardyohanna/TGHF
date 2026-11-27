@@ -30,9 +30,12 @@ export const navLinks: NavLink[] = [
     label: "Our Programmes",
     href: "#programmes",
     children: [
-      { label: "School Feeding", href: "#school-feeding" },
-      { label: "Education Support", href: "#education-support" },
-      { label: "Farm & Business Links", href: "#farm-links" },
+      { label: "From Farm to School: Feed a Child", href: "#farm-to-school" },
+      { label: "Back-to-School Support", href: "#back-to-school" },
+      {
+        label: "Women and Girls Skills Development",
+        href: "#women-girls-skills",
+      },
     ],
   },
   { label: "Our Impact", href: "#impact" },

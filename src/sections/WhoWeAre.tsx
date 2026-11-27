@@ -87,9 +87,12 @@ const WhoWeAre = () => (
           The George Hopenest Foundation
         </h2>
         <p className="mx-auto mt-4 max-w-3xl tracking-[0.03] text-base lg:text-xl leading-relaxed text-white font-[600] sm:text-lg md:mx-0">
-          We work with farmers, schools and community partners to put food on
-          the table, keep the classroom door open for children and create
-          opportunities for women and girls to learn practical skills.
+          We listen to displaced and rural communities and to orphanage homes
+          to understand local needs. We connect farmers and food businesses
+          with organisations caring for children, helping food reach kitchens
+          where it can support their nutritional needs. We also work with
+          partners to help children continue their education and create
+          practical skills-training opportunities for women and girls.
         </p>
       </div>
 

@@ -1,33 +1,33 @@
 import { ArrowRight } from "lucide-react";
 
-import educationImage from "../assets/16.jpeg";
-import farmingImage from "../assets/19.jpeg";
-import feedingImage from "../assets/5.jpeg";
+import educationImage from "../assets/42.jpeg";
+import farmingImage from "../assets/AI Catering.jpeg";
+import feedingImage from "../assets/vegetables AI.jpeg";
 
 const programmes = [
   {
-    id: "school-feeding",
-    title: "School Feeding",
+    id: "farm-to-school",
+    title: "From Farm to School: Feed a Child",
     description:
-      "Providing nutritious meals to help children stay healthy, learn better and remain in school.",
+      "We connect farmers and food businesses with organisations caring for children, helping fresh produce and other food reach community kitchens. We also help find ways for surplus produce to reach kitchens that can use it.",
     image: feedingImage,
     imageAlt: "A schoolgirl holding a bowl of food with classmates behind her",
     imagePosition: "object-[center_48%]",
   },
   {
-    id: "education-support",
-    title: "Education Support",
+    id: "back-to-school",
+    title: "Back-to-School Support",
     description:
-      "Removing barriers to education by providing learning materials, support and opportunities for children.",
+      "Our back-to-school fundraising brings community partners and supporters together to help children at RACO access the support they need for school.",
     image: educationImage,
     imageAlt: "A teacher reading with children gathered around a book",
     imagePosition: "object-[center_42%]",
   },
   {
-    id: "farm-links",
-    title: "Farm & Business Links",
+    id: "women-girls-skills",
+    title: "Women and Girls Skills Development",
     description:
-      "Equipping women and girls with practical skills, resources and market connections for sustainable livelihoods.",
+      "With partners including Project 100, we create practical training opportunities, including catering skills development for women.",
     image: farmingImage,
     imageAlt: "Foundation team members speaking with a farmer in a field",
     imagePosition: "object-[center_45%]",
@@ -52,8 +52,9 @@ const OurProgrammes = () => (
           What We Do
         </h2>
         <p className="mt-5 text-base leading-relaxed text-[#0d1b4c] sm:text-lg">
-          Practical, community-driven programmes that improve access to food,
-          support children&apos;s education and create opportunities for women
+          Starting with what communities say they need, we bring partners
+          together to improve children&apos;s access to nutritious food, support
+          their education and create practical skills opportunities for women
           and girls.
         </p>
       </header>

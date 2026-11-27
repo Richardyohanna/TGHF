@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import type { TouchEvent } from "react";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 
-import readingImg from "../assets/40.jpeg";
-import schoolchildrenImg from "../assets/13a.png";
+import readingImg from "../assets/a1.jpeg";
+import schoolchildrenImg from "../assets/a2.jpeg";
 import greenEdge from "../assets/Curved green photo edge.png";
 import whitePanel from "../assets/TGHF Hero/White text panel.png";
 import greenUpperCurve from "../assets/Green upper curve (1).png";
