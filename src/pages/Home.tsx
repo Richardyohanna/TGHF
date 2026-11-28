@@ -1,5 +1,5 @@
 import homepageBackground from "../assets/29.jpeg";
-import FeedAChildStory from "../sections/FeedAChildStory";
+// import FeedAChildStory from "../sections/FeedAChildStory";
 import Hero from "../sections/Hero";
 import OurProgrammes from "../sections/OurProgrammes";
 import WhoWeAre from "../sections/WhoWeAre";
@@ -14,7 +14,7 @@ const Home = () => {
                 style={{ backgroundImage: `url("${homepageBackground}")` }}
             />
             <Hero />
-            <FeedAChildStory />
+            {/* <FeedAChildStory /> */}
             <WhoWeAre />
            
             
